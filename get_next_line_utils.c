@@ -6,9 +6,72 @@
 /*   By: mstrba <mstrba@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 16:50:24 by mstrba            #+#    #+#             */
-/*   Updated: 2023/10/26 16:54:05 by mstrba           ###   ########.fr       */
+/*   Updated: 2023/10/29 13:53:12 by mstrba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+char	*ft_strchr(const char *str, int character)
+{
+	const char	*res;
+
+	res = str;
+	while (*res)
+	{
+		if (*res == (char)character)
+			return ((char *)res);
+		res++;
+	}
+	if (character == '\0')
+		return ((char *)res);
+	return (NULL);
+}
+
+void	*ft_calloc(size_t num_elements, size_t element_size)
+{
+	unsigned char	*res;
+	size_t			index;
+	size_t			total;
+
+	index = 0;
+	total = num_elements * element_size;
+	res = (unsigned char *) malloc(total);
+	if (res == NULL)
+		return (NULL);
+	while (index < total)
+	{
+		res[index] = 0;
+		index++;
+	}
+	return ((void *)res);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*res;
+	size_t	len;
+	size_t	index;
+
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	index = 0;
+	len = ft_strlen(s1) + ft_strlen(s2);
+	res = (char *) malloc((len + 1) * sizeof(char));
+	if (res == NULL)
+		return (NULL);
+	while (*s1)
+	{
+		res[index] = *s1;
+		s1++;
+		index++;
+	}
+	while (*s2)
+	{
+		res[index] = *s2;
+		s2++;
+		index++;
+	}
+	res[index] = '\0';
+	return (res);
+}
