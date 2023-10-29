@@ -6,21 +6,28 @@
 /*   By: mstrba <mstrba@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 16:50:27 by mstrba            #+#    #+#             */
-/*   Updated: 2023/10/29 14:58:40 by mstrba           ###   ########.fr       */
+/*   Updated: 2023/10/29 17:38:43 by mstrba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+char	*ft_realoc(char	*s1, char	*s2)
+{
+	char	*temp;
+
+	temp = ft_strjoin(s1, s2);
+	free(s1);
+	s1 = temp;
+	return (s1);
+}
+
 char	*ft_remove_line(char	*buffer)
 {
 	char	*res;
 	size_t	index;
-	size_t	n_index;
-	size_t	r_index;
 
 	index = 0;
-	r_index = 0;
 	if (!buffer)
 		return (NULL);
 	while (buffer[index] && buffer[index] != '\n')
@@ -31,14 +38,7 @@ char	*ft_remove_line(char	*buffer)
 		return (NULL);
 	}
 	index++;
-	n_index = index;
-	while (buffer[n_index] && buffer[n_index] != '\n')
-		n_index++;
-	res = calloc(n_index + 1, sizeof(char));
-	while (index < n_index)
-	{
-		res[r_index++] = buffer[index++];
-	}
+	res = ft_strdup(&buffer[index]);
 	free(buffer);
 	return (res);
 }
@@ -51,20 +51,27 @@ char	*ft_read_line(char	*buffer)
 
 	index = 0;
 	l_index = 0;
+	if (!buffer[0])
+		return (NULL);
 	while (buffer[index] && buffer[index] != '\n')
 		index++;
 	line = calloc(index + 1, sizeof(char));
-	while (buffer[l_index] != '\n')
-		line[l_index++] = buffer[l_index];
-	line[l_index] = '\0';
+	if (!line)
+		return (NULL);
+	while (l_index < index)
+	{
+		line[l_index] = buffer[l_index];
+		l_index++;
+	}
+	if (buffer[l_index] && buffer[l_index] == '\n')
+		line[l_index++] = '\n';
 	return (line);
 }
 
 char	*ft_read_file(int fd, char	*res)
 {
 	char	*buffer;
-	char	*temp;
-	size_t	bytes_read;
+	int		bytes_read;
 
 	bytes_read = 1;
 	if (!res)
@@ -72,7 +79,7 @@ char	*ft_read_file(int fd, char	*res)
 	buffer = calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!res || !buffer)
 		return (NULL);
-	while (bytes_read != 0)
+	while (bytes_read > 0)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
@@ -82,9 +89,9 @@ char	*ft_read_file(int fd, char	*res)
 			return (NULL);
 		}
 		buffer[bytes_read] = '\0';
-		temp = ft_strjoin(res, buffer);
-		free(res);
-		res = temp;
+		res = ft_realoc(res, buffer);
+		if (ft_strchr(buffer, '\n'))
+			break ;
 	}
 	free(buffer);
 	return (res);
