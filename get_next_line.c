@@ -6,15 +6,58 @@
 /*   By: mstrba <mstrba@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 16:50:27 by mstrba            #+#    #+#             */
-/*   Updated: 2023/10/29 14:06:46 by mstrba           ###   ########.fr       */
+/*   Updated: 2023/10/29 14:58:40 by mstrba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_read_line(int fd, char	*res)
+char	*ft_remove_line(char	*buffer)
 {
-	
+	char	*res;
+	size_t	index;
+	size_t	n_index;
+	size_t	r_index;
+
+	index = 0;
+	r_index = 0;
+	if (!buffer)
+		return (NULL);
+	while (buffer[index] && buffer[index] != '\n')
+		index++;
+	if (buffer[index] == '\0')
+	{
+		free(buffer);
+		return (NULL);
+	}
+	index++;
+	n_index = index;
+	while (buffer[n_index] && buffer[n_index] != '\n')
+		n_index++;
+	res = calloc(n_index + 1, sizeof(char));
+	while (index < n_index)
+	{
+		res[r_index++] = buffer[index++];
+	}
+	free(buffer);
+	return (res);
+}
+
+char	*ft_read_line(char	*buffer)
+{
+	char	*line;
+	size_t	index;
+	size_t	l_index;
+
+	index = 0;
+	l_index = 0;
+	while (buffer[index] && buffer[index] != '\n')
+		index++;
+	line = calloc(index + 1, sizeof(char));
+	while (buffer[l_index] != '\n')
+		line[l_index++] = buffer[l_index];
+	line[l_index] = '\0';
+	return (line);
 }
 
 char	*ft_read_file(int fd, char	*res)
@@ -58,6 +101,7 @@ char	*get_next_line(int fd)
 		buffer = ft_read_file(fd, buffer);
 	if (!buffer)
 		return (NULL);
-	line = ft_read_line();
+	line = ft_read_line(buffer);
+	buffer = ft_remove_line(buffer);
 	return (line);
 }
