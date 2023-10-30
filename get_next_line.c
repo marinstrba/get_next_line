@@ -6,13 +6,13 @@
 /*   By: mstrba <mstrba@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 16:50:27 by mstrba            #+#    #+#             */
-/*   Updated: 2023/10/29 17:38:43 by mstrba           ###   ########.fr       */
+/*   Updated: 2023/10/30 09:41:11 by mstrba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_realoc(char	*s1, char	*s2)
+char	*ft_realloc(char	*s1, char	*s2)
 {
 	char	*temp;
 
@@ -55,7 +55,7 @@ char	*ft_read_line(char	*buffer)
 		return (NULL);
 	while (buffer[index] && buffer[index] != '\n')
 		index++;
-	line = calloc(index + 1, sizeof(char));
+	line = calloc(index + 2, sizeof(char));
 	if (!line)
 		return (NULL);
 	while (l_index < index)
@@ -65,6 +65,7 @@ char	*ft_read_line(char	*buffer)
 	}
 	if (buffer[l_index] && buffer[l_index] == '\n')
 		line[l_index++] = '\n';
+	line[l_index] = '\0';
 	return (line);
 }
 
@@ -89,7 +90,7 @@ char	*ft_read_file(int fd, char	*res)
 			return (NULL);
 		}
 		buffer[bytes_read] = '\0';
-		res = ft_realoc(res, buffer);
+		res = ft_realloc(res, buffer);
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
