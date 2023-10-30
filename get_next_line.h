@@ -6,12 +6,18 @@
 /*   By: mstrba <mstrba@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 16:51:11 by mstrba            #+#    #+#             */
-/*   Updated: 2023/10/29 17:38:54 by mstrba           ###   ########.fr       */
+/*   Updated: 2023/10/30 09:39:03 by mstrba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+
+/*--------------------BUFFER_SIZE---------------------*/
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 /*--------------------StandartLibs--------------------*/
 
