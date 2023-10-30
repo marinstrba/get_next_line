@@ -6,11 +6,21 @@
 /*   By: mstrba <mstrba@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 16:50:24 by mstrba            #+#    #+#             */
-/*   Updated: 2023/10/29 15:19:49 by mstrba           ###   ########.fr       */
+/*   Updated: 2023/10/30 09:37:47 by mstrba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	index;
+
+	index = 0;
+	while (str[index] != '\0')
+		index++;
+	return (index);
+}
 
 char	*ft_strchr(const char *str, int character)
 {
@@ -45,6 +55,26 @@ void	*ft_calloc(size_t num_elements, size_t element_size)
 		index++;
 	}
 	return ((void *)res);
+}
+
+char	*ft_strdup(char *str)
+{
+	char		*res;
+	size_t		length;
+	size_t		index;
+
+	index = 0;
+	length = ft_strlen(str);
+	res = (char *) malloc (sizeof(char) * length + 1);
+	if (res == NULL)
+		return (NULL);
+	while (index < length)
+	{
+		res[index] = str[index];
+		index++;
+	}
+	res[index] = '\0';
+	return (res);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
